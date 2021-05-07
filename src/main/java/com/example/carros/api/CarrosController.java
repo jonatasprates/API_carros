@@ -3,6 +3,7 @@ package com.example.carros.api;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.carros.dto.CarroDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,14 +26,14 @@ public class CarrosController {
 	private CarroService service;
 	
 	@GetMapping()
-	public ResponseEntity<Iterable<Carro>> get() {
+	public ResponseEntity get() {
 		return ResponseEntity.ok(service.getCarros());
 		//return new ResponseEntity<>(service.getCarros(), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	public ResponseEntity getCarrosById(@PathVariable("id") Long id) {
-		Optional<Carro> carro = service.getCarroById(id);
+		Optional<CarroDTO> carro = service.getCarroById(id);
 		
 		return carro
 				.map(ResponseEntity::ok)
@@ -52,7 +53,7 @@ public class CarrosController {
 	
 	@GetMapping("/tipo/{tipo}")
 	public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo) {
-		List<Carro> carros = service.getCarroByTipo(tipo);
+		List<CarroDTO> carros = service.getCarroByTipo(tipo);
 		
 		return carros.isEmpty() ?
 				ResponseEntity.noContent().build() :
@@ -61,15 +62,15 @@ public class CarrosController {
 	
 	@PostMapping
 	public String post(@RequestBody Carro carro) {
-		Carro c = service.insert(carro);
+		Carro c = service.save(carro);
 		return "Carro salvo com sucesso: " + c.getId();
 	}
 	
 	@PutMapping("/{id}")
 	public String put(@PathVariable("id") Long id, @RequestBody Carro carro) {
-		Carro c = service.update(carro, id);
-		
-		return "Carro atualizado com sucesso: " + c.getId();
+	//	Carro c = service.update(carro, id);
+		return null;
+	//	return "Carro atualizado com sucesso: " + c.getId();
 	}
 	
 	@DeleteMapping("/{id}")

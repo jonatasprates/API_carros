@@ -1,5 +1,6 @@
 package com.example.carros.api;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +51,12 @@ public class CarrosController {
 	}
 	
 	@GetMapping("/tipo/{tipo}")
-	public Iterable<Carro> getCarrosByTipo(@PathVariable("tipo") String tipo) {
-		return service.getCarroByTipo(tipo);
+	public ResponseEntity getCarrosByTipo(@PathVariable("tipo") String tipo) {
+		List<Carro> carros = service.getCarroByTipo(tipo);
+		
+		return carros.isEmpty() ?
+				ResponseEntity.noContent().build() :
+				ResponseEntity.ok(carros);
 	}
 	
 	@PostMapping
